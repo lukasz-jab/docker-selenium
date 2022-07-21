@@ -11,7 +11,6 @@ ADD target/libs libs
 
 ADD src/test/resources/testng-tour.xml testng-tour.xml
 ADD src/test/resources/testng-duck.xml testng-duck.xml
-ADD src/test/resources/testng-parallel.xml testng-parallel.xml
 
 ADD healthcheck.sh healthcheck.sh
 RUN dos2unix healthcheck.sh
