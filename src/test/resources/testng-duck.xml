@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Duck" verbose="1" >
+    <test name="DuckTest"   >
+        <classes>
+            <class name="tests.DuckDuckVideoTest" />
+        </classes>
+    </test>
+</suite>

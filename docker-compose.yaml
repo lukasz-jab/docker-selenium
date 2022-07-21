@@ -1,0 +1,59 @@
+version: "3"
+services:
+  tour:
+    image: luk777docker/selenium-docker
+    environment: 
+      - MODULE=testng-tour.xml
+      - HUB_HOST=hub
+      - SE_EVENT_BUS_HOST=hub
+      - BROWSER=firefox
+    container_name: tour-firefox
+    #entrypoint: "java -cp selenium-docker-tests.jar:libs/* org.testng.TestNG testng-tour.xml"  actually in healthcheck
+    working_dir: /tests
+    volumes:
+      - D:\Docker\volumeTest\tour:/tests/test-output
+    depends_on: 
+      - chrome
+      - firefox
+  duck:
+    image: luk777docker/selenium-docker
+    shm_size: '1gb'
+    environment:
+      - MODULE=testng-duck.xml
+      - HUB_HOST=hub
+      - SE_EVENT_BUS_HOST=hub
+      - BROWSER=chrome
+    container_name: duck-chrome
+    #entrypoint: "java -cp selenium-docker-tests.jar:libs/* org.testng.TestNG testng-duck.xml"   actually in healthcheck
+    working_dir: /tests
+    volumes:
+      - D:\Docker\volumeTest\duck:/tests/test-output
+    depends_on: 
+      - chrome
+      - firefox
+  hub:
+    image: "selenium/hub:4.3"
+    ports:
+      - "4444:4444"
+  chrome: 
+    image: "selenium/node-chrome:4.3"
+    environment: 
+      - HUB_HOST=hub
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    volumes:
+      - D:\Docker\volumeTest\downloads-chrome:/home/seluser/Downloads
+    depends_on: 
+      - hub
+  firefox: 
+    image: "selenium/node-firefox:4.3"
+    environment: 
+      - HUB_HOST=hub
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    volumes:
+      - .D:\Docker\volumeTest\downloads-firefox:/home/seluser/Downloads
+    depends_on: 
+      - hub
